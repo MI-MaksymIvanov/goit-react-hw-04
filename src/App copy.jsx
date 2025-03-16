@@ -18,30 +18,66 @@ function App() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
+  const [showModal, setShowModal] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [hasMorePhotos, setHasMorePhotos] = useState(true);
 
-  const handleSearch = async (searchQuery) => {
+  const handleSearch = (searchQuery) => {
     setQuery(searchQuery);
     setPage(1);
     setPhotos([]);
-    setHasMorePhotos(true);
-    await fetchPhotos(searchQuery, 1);
   };
 
-  const handleLoadMore = async () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-    await fetchPhotos(query, nextPage);
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
   };
 
   const handleImageClick = (photo) => {
-    setSelectedPhoto(photo);
+    if (!showModal) {
+      setSelectedPhoto(photo);
+      setShowModal(true);
+    }
   };
 
   const closeModal = () => {
+    setShowModal(false);
     setSelectedPhoto(null);
   };
+
+  // useEffect(() => {
+  //   if (!query) return;
+
+  //   async function getPhotos() {
+  //     if (page === 1) {
+  //       setLoading(true);
+  //     } else {
+  //       setLoadingMore(true);
+  //     }
+  //     setError(null);
+  //     try {
+  //       const data = await fetchPhoto(query, page);
+  //       if (data.length === 0) {
+  //         if (page === 1) {
+  //           toast("Nothing found", {
+  //             duration: 3000,
+  //           });
+  //         } else {
+  //           toast("End of collection", {
+  //             duration: 3000,
+  //           });
+  //         }
+  //       } else {
+  //         setPhotos((prevPhotos) => [...prevPhotos, ...data]);
+  //       }
+  //     } catch (error) {
+  //       setError("Pls reload page...");
+  //     } finally {
+  //       setLoading(false);
+  //       setLoadingMore(false);
+  //     }
+  //   }
+
+  //   getPhotos();
+  // }, [query, page]);
 
   const fetchPhotos = async (searchQuery, page) => {
     if (!searchQuery) return;
@@ -54,21 +90,18 @@ function App() {
     setError(null);
     try {
       const data = await fetchPhoto(searchQuery, page);
-
       if (data.length === 0) {
         if (page === 1) {
           toast("Nothing found", {
             duration: 3000,
           });
-        }
-      } else {
-        setPhotos((prevPhotos) => [...prevPhotos, ...data]);
-        if (data.length < 12) {
+        } else {
           toast("End of collection", {
             duration: 3000,
           });
-          setHasMorePhotos(false);
         }
+      } else {
+        setPhotos((prevPhotos) => [...prevPhotos, ...data]);
       }
     } catch (error) {
       setError("Pls reload page...");
@@ -84,12 +117,12 @@ function App() {
       {loading && <Loader />}
       {error && <ErrorMessage message={error} />}
       <ImageGallery photos={photos} onImageClick={handleImageClick} />
-      {photos.length > 0 && !loading && !loadingMore && hasMorePhotos && (
+      {photos.length > 0 && !loading && !loadingMore && (
         <LoadMoreBtn onClick={handleLoadMore} />
       )}
       {loadingMore && <Loader />}
       <ImageModal
-        isOpen={Boolean(selectedPhoto)}
+        isOpen={showModal}
         onRequestClose={closeModal}
         photo={selectedPhoto}
       />

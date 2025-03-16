@@ -9,6 +9,6 @@
 
 .imageGalleryItem {
   height: 250px;
-  flex-basis: calc((100% - 20px) / 5);
+  flex-basis: calc((100% - 20px) / 3);
   overflow: hidden;
 }
