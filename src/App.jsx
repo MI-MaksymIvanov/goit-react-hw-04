@@ -88,11 +88,7 @@ function App() {
         <LoadMoreBtn onClick={handleLoadMore} />
       )}
       {loadingMore && <Loader />}
-      <ImageModal
-        isOpen={Boolean(selectedPhoto)}
-        onRequestClose={closeModal}
-        photo={selectedPhoto}
-      />
+      <ImageModal onClose={closeModal} photo={selectedPhoto} />
       <Toaster position="top-center" />
     </>
   );

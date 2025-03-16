@@ -16,9 +16,6 @@ export default function ImageModal({ onClose, photo }) {
     >
       {photo && (
         <>
-          <button className={css.imageModalCloseBtn} onClick={onClose}>
-            &times;
-          </button>
           <img
             src={photo.urls.regular}
             alt={photo.alt_description}
