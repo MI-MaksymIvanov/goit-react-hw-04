@@ -1,0 +1,22 @@
+.searchBarHeader {
+}
+
+.searchBarForm {
+  background-color: #2d40c8;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  width: auto;
+}
+
+.searchBarInput {
+  width: 640px;
+  padding: 10px;
+  margin-right: 12px;
+  background-color: #fff;
+  border: transparent;
+  outline: transparent;
+}
+
+.searchBarBtn {
+}

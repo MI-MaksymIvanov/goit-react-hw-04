@@ -1,0 +1,14 @@
+.imageGalleryList {
+  padding: 26px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.imageGalleryItem {
+  height: 250px;
+  flex-basis: calc((100% - 20px) / 5);
+  overflow: hidden;
+}
